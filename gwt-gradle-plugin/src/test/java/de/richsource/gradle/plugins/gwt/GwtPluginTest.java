@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Steffen Schaefer
+ * Copyright (C) 2013-2017 Steffen Schaefer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import static org.hamcrest.core.IsNot.*;
 import static org.junit.Assert.*;
 
 import org.gradle.api.Project;
-import org.gradle.api.internal.project.AbstractProject;
+import org.gradle.api.internal.project.DefaultProject;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.plugins.WarPlugin;
 import org.gradle.api.tasks.Copy;
@@ -68,7 +68,7 @@ public class GwtPluginTest {
 	@Test
 	public void testSuperDevTaskAvailable() {
 		getExtension().setCodeserver(true);
-		((AbstractProject)project).evaluate();
+		((DefaultProject)project).evaluate();
 		
 		assertThat(tasks.getByName(GwtBasePlugin.TASK_GWT_SUPER_DEV), instanceOf(GwtSuperDev.class));
 	}
@@ -76,7 +76,7 @@ public class GwtPluginTest {
 	@Test
 	public void testSuperDevTaskNotAvailable() {
 		getExtension().setCodeserver(false);
-		((AbstractProject)project).evaluate();
+		((DefaultProject)project).evaluate();
 		
 		assertNull(tasks.findByName(GwtBasePlugin.TASK_GWT_SUPER_DEV));
 	}
@@ -85,7 +85,7 @@ public class GwtPluginTest {
 	public void testWarTasksAvailable() {
 		project.getPlugins().apply(WarPlugin.class);
 		
-		assertThat(tasks.getByName(GwtWarPlugin.TASK_WAR_TEMPLATE), instanceOf(Copy.class));
+		((DefaultProject) project).evaluate();
 		assertThat(tasks.getByName(GwtWarPlugin.TASK_GWT_DEV), instanceOf(GwtDev.class));
 		assertThat(tasks.getByName(GwtWarPlugin.TASK_DRAFT_WAR), instanceOf(War.class));
 	}

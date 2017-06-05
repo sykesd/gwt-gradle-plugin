@@ -1,8 +1,19 @@
+plugins {
+	id 'com.github.hierynomus.license'   version '0.13.1'
+}
+
 task publish
 
+subprojects{
+	plugins.withType(JavaPlugin) {
+    	targetCompatibility = 1.8
+    	sourceCompatibility = 1.8
+	}
+}
+
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.0'
-	distributionUrl = 'https://services.gradle.org/distributions/gradle-2.0-all.zip'
+	gradleVersion = '3.5'
+	distributionUrl = 'https://services.gradle.org/distributions/gradle-3.5-all.zip'
 }
 
 ext {
